@@ -4,6 +4,7 @@ import { useGetAllContactsQuery } from '../../redux/contacts/contactsApi';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Row, Col } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 
 const AddContactForm = () => {
   const [name, setName] = useState('');
@@ -18,15 +19,13 @@ const AddContactForm = () => {
 
     if (data.find(contact => contact.name.toLowerCase() === normalizedName)) {
       alert(` ${name} is already in contacts`);
-      reset();
       return;
     }
     try {
-      await addContact({ name, number });
+      await addContact({ name, number }).then(reset());
     } catch (error) {
       console.log('Error', error);
     }
-    reset();
   };
 
   const handleInputText = evt => {
@@ -87,7 +86,7 @@ const AddContactForm = () => {
           Добавить этого везунчика в список
         </Button>
       </Form>
-      {isLoading && <b>Список Санты обновляется, обожди !</b>}
+      {isLoading && <Spinner animation="border" className="m-3" />}
     </>
   );
 };

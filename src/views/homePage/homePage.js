@@ -1,5 +1,4 @@
 import Spinner from 'react-bootstrap/Spinner';
-
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Suspense } from 'react';

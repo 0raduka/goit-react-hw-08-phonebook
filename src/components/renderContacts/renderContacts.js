@@ -3,6 +3,7 @@ import s from './renderContact.module.css';
 import { useContacts } from 'hooks/useContacts';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 
 const RenderContacts = () => {
   const { filteredContatcs, error, isLoading } = useContacts();
@@ -34,7 +35,7 @@ const RenderContacts = () => {
           ))}
         </ListGroup>
       )}
-      {result.isLoading && <p>В процесе анигиляции...</p>}
+      {result.isLoading && <Spinner animation="border" className="m-3" />}
     </>
   );
 };

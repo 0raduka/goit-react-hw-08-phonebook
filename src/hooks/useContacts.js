@@ -7,9 +7,6 @@ export const useContacts = () => {
   const filterValue = useSelector(state => state.filter?.value);
   const normalizedFilter = filterValue.toLowerCase();
 
-  const dataCheck = useGetAllContactsQuery();
-  // console.log('DATA CHECK', dataCheck);
-
   const selectedContacts = useMemo(() => {
     return createSelector(
       [response => response.data, (_, filter) => filter],

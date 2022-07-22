@@ -7,7 +7,7 @@ export default function PublicRoute({ children, restricted = false }) {
   const shouldRedirect = isLoggedIn && restricted;
 
   if (shouldRedirect) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace={true} />;
   }
 
   return children;

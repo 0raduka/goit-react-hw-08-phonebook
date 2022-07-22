@@ -6,8 +6,6 @@ import { useGetAllContactsQuery } from 'redux/contacts/contactsApi';
 import Section from 'components/section';
 
 const Contacts = () => {
-  // console.log(store);
-
   const receivedData = useGetAllContactsQuery();
   const data = receivedData?.data;
 

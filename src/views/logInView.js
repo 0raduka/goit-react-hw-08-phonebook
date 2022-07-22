@@ -1,14 +1,17 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authOperations } from '../redux/auth';
-import React, { useState } from 'react';
+import { authSelectors } from 'redux/auth';
+import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function LoginView() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const isLogging = useSelector(authSelectors.getIsLogging);
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -20,6 +23,10 @@ export default function LoginView() {
         return;
     }
   };
+
+  useEffect(() => {
+    dispatch(authOperations.fetchCurrentUser());
+  }, [dispatch]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -69,6 +76,7 @@ export default function LoginView() {
           Впустите!
         </Button>
       </Form>
+      {isLogging && <Spinner animation="border" />}
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { authSelectors } from 'redux/auth';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PrivateRoute from 'components/privateRoute';
 import PublicRoute from 'components/publicRoute';
 import { authOperations } from 'redux/auth';
@@ -14,8 +13,6 @@ const LoginView = lazy(() => import('./views/logInView'));
 const Contacts = lazy(() => import('./views/contacts'));
 
 const App = () => {
-  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,16 +30,11 @@ const App = () => {
         }
       >
         <Routes>
-          <Route
-            exact
-            path="/"
-            element={<Homepage />}
-            logInCheck={isLoggedIn}
-          />
+          <Route exact path="/" element={<Homepage />} />
           <Route
             path="/register"
             element={
-              <PublicRoute logInCheck={isLoggedIn} restricted>
+              <PublicRoute restricted>
                 <RegisterView />
               </PublicRoute>
             }
@@ -50,7 +42,7 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <PublicRoute logInCheck={isLoggedIn} restricted>
+              <PublicRoute restricted>
                 <LoginView />
               </PublicRoute>
             }
@@ -62,7 +54,6 @@ const App = () => {
                 <Contacts />
               </PrivateRoute>
             }
-            // replace={true}
           />
 
           <Route path="*" element={<p>There's nothing here: 404!</p>} />

@@ -14,27 +14,23 @@ const authSlice = createSlice({
   initialState,
   extraReducers: {
     [authOperations.register.fulfilled](state, action) {
-      // console.log('REGISTER', action.payload);
       state.user = action.payload.user;
       state.token = action.payload.token;
       state.isLoggedIn = true;
     },
     [authOperations.logIn.pending](state) {
+      state.loginError = null;
       state.isLogging = true;
-      // console.log('state.isLogging', state.isLogging);
     },
     [authOperations.logIn.rejected](state, action) {
-      state.isLogging = false;
-      state.loginError =
-        action.error.message === 'Request failed with status code 401'
-          ? 'Invalid username or password'
-          : 'Something went wrong!';
+      state.loginError = action.payload;
     },
     [authOperations.logIn.fulfilled](state, action) {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.user = action?.payload.user;
+      state.token = action?.payload.token;
       state.isLoggedIn = true;
       state.isLogging = false;
+      state.loginError = null;
     },
     [authOperations.logOut.fulfilled](state) {
       state.user = { name: null, email: null };

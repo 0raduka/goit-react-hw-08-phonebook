@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authSelectors, authOperations } from '../../redux/auth';
 import Button from 'react-bootstrap/Button';
 import { Navbar, Container } from 'react-bootstrap';
+import { persistor } from 'redux/store';
 
 export default function UserMenu() {
   const dispatch = useDispatch();
@@ -15,7 +16,11 @@ export default function UserMenu() {
         className="m-2"
         variant="warning"
         type="button"
-        onClick={() => dispatch(authOperations.logOut())}
+        onClick={() => {
+          console.log('Log OUT');
+          persistor.purge();
+          return dispatch(authOperations.logOut());
+        }}
       >
         Выйти
       </Button>

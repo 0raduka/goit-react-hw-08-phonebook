@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { authOperations } from '../redux/auth';
 import { authSelectors } from 'redux/auth';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
+import { BiLoaderAlt } from 'react-icons/bi';
 
 export default function LoginView() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const isLogging = useSelector(authSelectors.getIsLogging);
+  const loginError = useSelector(authSelectors.getLoginError);
+  const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
 
   const handleChange = ({ target: { name, value } }) => {
     switch (name) {
@@ -24,15 +26,14 @@ export default function LoginView() {
     }
   };
 
-  useEffect(() => {
-    dispatch(authOperations.fetchCurrentUser());
-  }, [dispatch]);
-
   const handleSubmit = e => {
     e.preventDefault();
     dispatch(authOperations.logIn({ email, password }));
-    setEmail('');
-    setPassword('');
+    if (isLoggedIn) {
+      console.log('ПОЛУЧИЛОСЬ');
+      setEmail('');
+      setPassword('');
+    }
   };
 
   return (
@@ -76,7 +77,8 @@ export default function LoginView() {
           Впустите!
         </Button>
       </Form>
-      {isLogging && <Spinner animation="border" />}
+      {isLogging && <BiLoaderAlt className={!loginError && 'rotate'} />}
+      {isLogging && loginError && <p> хм. где то ошибка</p>}
     </div>
   );
 }
